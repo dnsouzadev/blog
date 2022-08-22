@@ -9,16 +9,17 @@ router.get('/admin/categories/new', (req, res) => {
 
 router.post('/categories/save', (req, res) => {
   let { title } = req.body
-  console.log(title)
-  console.log(title.length)
-  console.log(typeof(title))
 
   title.length !== 0 ? Category.create({
     title: title,
     slug: slugify(title)
   }).then(() => {
-    res.redirect('/')
+    res.redirect('/admin/categories')
   }) : res.redirect('/admin/categories/new')
+})
+
+router.get('/admin/categories', (req, res) => {
+  res.render('admin/categories/index.ejs')
 })
 
 module.exports = router
