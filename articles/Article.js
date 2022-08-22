@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const connection = require('../database/database')
+const Category = require('../categories/Category')
 
 const Article = connection.define('articles', {
   title: {
@@ -15,5 +16,8 @@ const Article = connection.define('articles', {
     allowNull: false
   }
 })
+
+Category.hasMany(Article) // category tem muitos article = 1 PARA MUITOS
+Article.belongsTo(Category) // article tem uma category = 1 PARA 1
 
 module.exports = Article
