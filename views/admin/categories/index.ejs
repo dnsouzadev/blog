@@ -1,41 +1,40 @@
 <%- include('../../partials/header.ejs') %>
-  <%- include('../../partials/navbar.ejs') %>
+<%- include('../../partials/navbar.ejs') %>
 
-  <div class="container">
-    <hr>
-    <h2>Categorias</h2>
+<div class="container">
+  <hr>
+  <h2>Categorias</h2>
 
-    <a class="btn btn-success" href="/admin/categories/new">Criar nova categoria</a>
-    
-    <hr>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Título</th>
-          <th>Slug</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% categories.forEach(category=> { %>
-          <tr>
-            <th><%= category.id %></th>
-            <th><%= category.title %></th>
-            <th><%= category.slug %></th>
-            <th>
-              <button class="btn btn-warning">Editar</button>
+  <a class="btn btn-success" href="/admin/categories/new">Criar nova categoria</a>  
+  <hr>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Slug</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% categories.forEach(category=> { %>
+    <tr>
+          <th><%= category.id %></th>
+          <th><%= category.title %></th>
+          <th><%= category.slug %></th>
+          <th>
 
-              <form method="post" action="/categories/delete" style="display: inline;">
-                <input type="hidden" name="id" value="<%= category.id %>">
-                <button class="btn btn-danger">Apagar</button>
-              </form>
+            <a href="/admin/categories/edit/<%= category.id %>" class="btn btn-warning">Editar</a>
 
-            </th>
-          </tr>
-        <% }) %>
-      </tbody>
-    </table>
-  </div>
+            <form method="post" action="/categories/delete" style="display: inline;">
+              <input type="hidden" name="id" value="<%= category.id %>">
+              <button class="btn btn-danger">Apagar</button>
+            </form>
 
-    <%- include('../../partials/footer.ejs') %>
+          </th>
+      </tr>
+    <% }) %>
+  </tbody>
+  </table>
+</div>
+<%- include('../../partials/footer.ejs') %>
