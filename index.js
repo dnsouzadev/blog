@@ -31,6 +31,30 @@ connection.authenticate().then(() => {
 app.use("/", categoriesController)
 app.use("/", articlesController)
 
+app.get('/', (req, res) => {
+
+  Article.findAll({
+    order: [
+      ['id', 'DESC']
+    ]
+  }).then(articles => {
+    res.render('index', { articles })
+  })
+})
+
+app.get('/:slug', (req, res) => {
+  let { slug } = req.params
+  Article.findOne({
+    where: {
+      slug
+    }
+  }).then((article) => {
+    article !== undefined ? res.render("article", { article }) : res.redirect("/")
+  }).catch((err) => {
+    res.redirect("/")
+  })
+})
+
 app.listen(8000, () => {
   console.log('is running')
 })
