@@ -29,7 +29,7 @@ connection.authenticate().then(() => {
 
 // routes
 app.use("/", categoriesController)
-app.use("/articles", articlesController)
+app.use("/", articlesController)
 
 app.listen(8000, () => {
   console.log('is running')
