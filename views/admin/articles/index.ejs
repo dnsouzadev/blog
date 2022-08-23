@@ -30,13 +30,19 @@
                 <%= article.slug %>
               </th>
               <th>
-                <%= article.category.title %>
+                <% if(article.categoryId !=undefined) { %>
+                  <td>
+                    <%= article.category.title %>
+                  </td>
+                  <% } else { %>
+                    <td>-</td>
+                    <% } %>
               </th>
               <th>
           
                 <a href="/admin/categories/edit/<%= article.id %>" class="btn btn-warning">Editar</a>
           
-                <form method="post" action="/categories/delete" style="display: inline;">
+                <form method="post" action="/articles/delete" style="display: inline;">
                   <input type="hidden" name="id" value="<%= article.id %>">
                   <button class="btn btn-danger">Apagar</button>
                 </form>
