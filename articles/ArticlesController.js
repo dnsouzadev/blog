@@ -2,13 +2,17 @@ const express = require('express')
 const slugify = require('slugify')
 
 const Article = require('./Article')
-
 const Category = require('../categories/Category')
 
 const router = express.Router()
 
 router.get('/admin/articles', (req, res) => {
-  res.send('rota de articles')
+  Article.findAll({
+    include: [{ model: Category }]
+  }).then(artigos => {
+    res.render('admin/articles/index', { articles: artigos })
+  })
+
 })
 
 router.get('/admin/articles/new', (req, res) => {
