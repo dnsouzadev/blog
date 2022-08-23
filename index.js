@@ -38,21 +38,46 @@ app.get('/', (req, res) => {
       ['id', 'DESC']
     ]
   }).then(articles => {
-    res.render('index', { articles })
+    Category.findAll().then(categories => {
+      res.render('index', { articles, categories })
+    })
   })
 })
 
 app.get('/:slug', (req, res) => {
   let { slug } = req.params
+
   Article.findOne({
     where: {
       slug
     }
   }).then((article) => {
-    article !== undefined ? res.render("article", { article }) : res.redirect("/")
-  }).catch((err) => {
+    article !== undefined ? Category.findAll().then(categories => {
+      res.render('article', { article, categories })
+    }) : res.redirect("/")
+  }).catch(() => {
     res.redirect("/")
   })
+})
+
+app.get('/category/:slug', (req, res) => {
+  let { slug } = req.params
+
+  Category.findOne({
+    where: {
+      slug
+    },
+    include: [
+      { model: Article }
+    ]
+  }).then((category) => {
+    category !== undefined ? Category.findAll().then((categories) => {
+      res.render('index', { articles: category.articles, categories })
+    }) : res.redirect('/')
+  }).catch(() => {
+    res.redirect('/')
+  })
+
 })
 
 app.listen(8000, () => {
