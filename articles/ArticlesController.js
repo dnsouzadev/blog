@@ -7,7 +7,7 @@ const Category = require('../categories/Category')
 
 const router = express.Router()
 
-router.get('/articles', (req, res) => {
+router.get('/admin/articles', (req, res) => {
   res.send('rota de articles')
 })
 
@@ -27,7 +27,7 @@ router.post('/articles/save', (req, res) => {
     body,
     categoryId: category
   }).then(() => {
-    res.redirect("/articles")
+    res.redirect("/admin/articles")
   }).catch(() => {
     res.redirect("admin/articles/new")
   })

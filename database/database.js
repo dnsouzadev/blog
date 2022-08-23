@@ -3,7 +3,7 @@ const Sequelize = require('sequelize' )
 const connection = new Sequelize('blog', 'root', '', {
   host: 'localhost',
   dialect: 'mysql',
-  timezone: 'utf-3'
+  timezone: '-03:00'
 })
 
 module.exports = connection
