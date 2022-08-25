@@ -6,7 +6,9 @@ const User = require('./User')
 const router = express.Router()
 
 router.get('/admin/users', (req, res) => {
-  res.send("listar users")
+  User.findAll().then(users => {
+    res.render('admin/users/index', { users })
+  })
 })
 
 router.get('/admin/create', (req, res) => {
@@ -27,7 +29,7 @@ router.post('/users/create', (req, res) => {
         email,
         password: hash
       }).then(() => {
-        res.redirect('/')
+        res.redirect('/admin/users')
 
       }).catch(() => {
         res.redirect('/admin/create')
