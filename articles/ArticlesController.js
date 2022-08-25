@@ -82,34 +82,33 @@ router.post('/articles/update', (req, res) => {
   })
 })
 
-router.get('/article/page/:num', (req, res) => {
+router.get('/articles/page/:num', (req, res) => {
   const { num } = req.params
 
   let offset = 0
 
   isNaN(num) || num === 1 ? offset = 0 : offset = parseInt(num) * 4
 
-  // if (isNaN(num) || num === 1 ) {
-  //   offset = 0
-  // } else {
-  //   offset = parseInt(num) * 4
-  // }
-
   Article.findAndCountAll({
     limit: 4,
-    offset
+    offset,
+    order: [
+      ['id', 'DESC']
+    ]
   }).then(articles => {
 
     let next
     offset + 4 >= articles.count ? next = false : next = true
 
     const result = {
+      page: parseInt(num),
       next,
       articles
     }
-
-    return res.json(result)
-
+    
+    Category.findAll().then(categories => {
+      res.render("admin/articles/page", { result, categories })
+    })
   })
 
 
