@@ -10,7 +10,8 @@ router.get('/admin/articles', (req, res) => {
   Article.findAll({
     include: [{ model: Category }]
   }).then(artigos => {
-    res.render('admin/articles/index', { articles: artigos })
+    console.log(artigos)
+    res.render('admin/articles/index', { articles: artigos, cate: artigos.category })
   })
 
 })
@@ -49,6 +50,37 @@ router.post('/articles/delete', (req, res) => {
     res.redirect('/admin/articles')
   }) : res.redirect('/admin/articles')
 
+})
+
+router.get('/admin/articles/edit/:id', (req, res) => {
+  let { id } = req.params
+  let int_id = parseInt(id)
+  
+  if (isNaN(id)) return res.redirect("/admin/edit")
+
+  Article.findByPk(int_id, { include: [
+    { model: Category }
+  ]}).then(article => {
+    Category.findAll().then(categories => {
+      article !== undefined ? res.render('admin/articles/edit', { article, categories }) : res.redirect("/admin/articles")
+    }).catch((err) => {
+      res.redirect("/admin/articles")
+    })
+    })
+})
+
+router.post('/articles/update', (req, res) => {
+  let { title, body, category, id } = req.body
+
+  Article.update({ title, slug: slugify(title), body, categoryId: category }, {
+    where: {
+      id: id
+    }
+  }).then(() => {
+    res.redirect("/admin/articles")
+  }).catch(() => {
+    res.redirect(`admin/articles/edit/${id}`)
+  })
 })
 
 module.exports = router

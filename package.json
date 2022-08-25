@@ -18,5 +18,8 @@
     "nodemon": "^2.0.19",
     "sequelize": "^6.21.4",
     "slugify": "^1.6.5"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5"
   }
 }
