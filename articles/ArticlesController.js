@@ -87,7 +87,7 @@ router.get('/articles/page/:num', (req, res) => {
 
   let offset = 0
 
-  isNaN(num) || num === 1 ? offset = 0 : offset = parseInt(num) * 4
+  isNaN(num) || num === 1 ? offset = 0 : offset = (parseInt(num) - 1) * 4
 
   Article.findAndCountAll({
     limit: 4,
