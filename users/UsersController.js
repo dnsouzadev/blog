@@ -11,5 +11,8 @@ router.get('/admin/create', (req, res) => {
   res.render('admin/users/create')
 })
 
+router.post('users/create', (req, res) => {
+  const { email, password } = req.body
+})
 
 module.exports = router

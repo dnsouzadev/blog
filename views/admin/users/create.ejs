@@ -1,1 +1,21 @@
-<h1>formm</h1>
+<%- include('../../partials/header.ejs') %>
+  <%- include('../../partials/navbar.ejs') %>
+
+    <div class="container">
+      <hr>
+      <div class="card mt-5">
+        <div class="card-header">
+          <h2>Criação de Usuário</h2>
+        </div>
+        <div class="card-body">
+          <form method="post" action="users/create">
+            <input class="form-control" type="email" name="email" placeholder="email@example.com">
+            <input class="form-control mt-3 mb-4" type="password" name="password" placeholder="******">
+            <button type="submit" class="btn btn-success w-100">Cadastrar</button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <%- include('../../partials/footer.ejs') %>
