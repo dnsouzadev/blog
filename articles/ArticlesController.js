@@ -10,7 +10,6 @@ router.get('/admin/articles', (req, res) => {
   Article.findAll({
     include: [{ model: Category }]
   }).then(artigos => {
-    console.log(artigos)
     res.render('admin/articles/index', { articles: artigos, cate: artigos.category })
   })
 
@@ -81,6 +80,39 @@ router.post('/articles/update', (req, res) => {
   }).catch(() => {
     res.redirect(`admin/articles/edit/${id}`)
   })
+})
+
+router.get('/article/page/:num', (req, res) => {
+  const { num } = req.params
+
+  let offset = 0
+
+  isNaN(num) || num === 1 ? offset = 0 : offset = parseInt(num) * 4
+
+  // if (isNaN(num) || num === 1 ) {
+  //   offset = 0
+  // } else {
+  //   offset = parseInt(num) * 4
+  // }
+
+  Article.findAndCountAll({
+    limit: 4,
+    offset
+  }).then(articles => {
+
+    let next
+    offset + 4 >= articles.count ? next = false : next = true
+
+    const result = {
+      next,
+      articles
+    }
+
+    return res.json(result)
+
+  })
+
+
 })
 
 module.exports = router
