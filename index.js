@@ -21,7 +21,7 @@ app.use(express.static('public'))
 
 // session
 app.use(session({
-  secret: 'camren', cookie: { maxAge: 30000 }
+  secret: 'camren', cookie: { maxAge: 30000000 }
 }))
 
 //body-parser
