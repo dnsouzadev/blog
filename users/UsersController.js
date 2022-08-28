@@ -69,4 +69,9 @@ router.post('/authenticate', (req, res) => {
   
 })
 
+router.get('/logout', adminAuth, (req, res) => {
+  req.session.user = undefined
+  res.redirect('/')
+})
+
 module.exports = router
