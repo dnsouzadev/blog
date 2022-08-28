@@ -4,9 +4,11 @@ const slugify = require('slugify')
 const Article = require('./Article')
 const Category = require('../categories/Category')
 
+const adminAuth = require('../middlewares/adminAuth')
+
 const router = express.Router()
 
-router.get('/admin/articles', (req, res) => {
+router.get('/admin/articles', adminAuth, (req, res) => {
   Article.findAll({
     include: [{ model: Category }]
   }).then(artigos => {
@@ -15,14 +17,14 @@ router.get('/admin/articles', (req, res) => {
 
 })
 
-router.get('/admin/articles/new', (req, res) => {
+router.get('/admin/articles/new', adminAuth, (req, res) => {
 
   Category.findAll().then(categorias => {
     res.render('admin/articles/new', { categories: categorias })
   })
 })
 
-router.post('/articles/save', (req, res) => {
+router.post('/articles/save', adminAuth, (req, res) => {
   let { title, body, category } = req.body
 
   Article.create({
@@ -37,7 +39,7 @@ router.post('/articles/save', (req, res) => {
   })
 })
 
-router.post('/articles/delete', (req, res) => {
+router.post('/articles/delete', adminAuth, (req, res) => {
   let { id } = req.body
   let int_id = parseInt(id)
 
@@ -51,7 +53,7 @@ router.post('/articles/delete', (req, res) => {
 
 })
 
-router.get('/admin/articles/edit/:id', (req, res) => {
+router.get('/admin/articles/edit/:id', adminAuth, (req, res) => {
   let { id } = req.params
   let int_id = parseInt(id)
   
@@ -68,7 +70,7 @@ router.get('/admin/articles/edit/:id', (req, res) => {
     })
 })
 
-router.post('/articles/update', (req, res) => {
+router.post('/articles/update', adminAuth, (req, res) => {
   let { title, body, category, id } = req.body
 
   Article.update({ title, slug: slugify(title), body, categoryId: category }, {

@@ -3,11 +3,13 @@ const router = express.Router()
 const Category = require('./Category')
 const slugify = require('slugify')
 
-router.get('/admin/categories/new', (req, res) => {
+const adminAuth = require('../middlewares/adminAuth')
+
+router.get('/admin/categories/new', adminAuth, (req, res) => {
   res.render('admin/categories/new.ejs')
 })
 
-router.post('/categories/save', (req, res) => {
+router.post('/categories/save', adminAuth, (req, res) => {
   let { title } = req.body
 
   title.length !== 0 ? Category.create({
@@ -18,14 +20,14 @@ router.post('/categories/save', (req, res) => {
   }) : res.redirect('/admin/categories/new')
 })
 
-router.get('/admin/categories', (req, res) => {
+router.get('/admin/categories', adminAuth, (req, res) => {
 
   Category.findAll().then(cat => {
     res.render('admin/categories/index.ejs', { categories: cat})
   })
 })
 
-router.post('/categories/delete', (req, res) => {
+router.post('/categories/delete', adminAuth, (req, res) => {
   let { id } = req.body
   let int_id = parseInt(id)
 
@@ -38,7 +40,7 @@ router.post('/categories/delete', (req, res) => {
 
 })
 
-router.get('/admin/categories/edit/:id', (req, res) => {
+router.get('/admin/categories/edit/:id', adminAuth, (req, res) => {
   let { id } = req.params
   let int_id = parseInt(id)
   
@@ -51,7 +53,7 @@ router.get('/admin/categories/edit/:id', (req, res) => {
   })
 })
 
-router.post('/categories/update', (req, res) => {
+router.post('/categories/update', adminAuth, (req, res) => {
   let { title, id } = req.body
 
   Category.update({ title: title, slug: slugify(title) }, { where: {

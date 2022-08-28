@@ -1,21 +1,23 @@
 const express = require('express')
 const bcrypt = require('bcryptjs')
 
+const adminAuth = require('../middlewares/adminAuth')
+
 const User = require('./User')
 
 const router = express.Router()
 
-router.get('/admin/users', (req, res) => {
+router.get('/admin/users', adminAuth, (req, res) => {
   User.findAll().then(users => {
     res.render('admin/users/index', { users })
   })
 })
 
-router.get('/admin/create', (req, res) => {
+router.get('/admin/create', adminAuth, (req, res) => {
   res.render('admin/users/create')
 })
 
-router.post('/users/create', (req, res) => {
+router.post('/users/create', adminAuth, (req, res) => {
   const { email, password } = req.body
 
   User.findOne({ where: {
@@ -61,7 +63,7 @@ router.post('/authenticate', (req, res) => {
       email: user.email
     }
 
-    res.json(req.session.user)
+    res.redirect('admin/articles')
 
   })
   
